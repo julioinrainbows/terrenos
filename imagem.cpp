@@ -13,21 +13,21 @@ imagem::imagem(int a, int l): altura(a), largura(l) {
     }
 }
 
-pixel imagem::consultar(int x, int y, imagem img) {return img.pixels[x][y];}
+pixel imagem::consultar(int x, int y) {return pixels[x][y];}
 
-void imagem::colorir(int x, int y, imagem &img, short R, short G, short B) {
-    img.pixels[x][y].R = R;
-    img.pixels[x][y].G = G;
-    img.pixels[x][y].B = B;
+void imagem::colorir(int x, int y, short R, short G, short B) {
+    pixels[x][y].R = R;
+    pixels[x][y].G = G;
+    pixels[x][y].B = B;
 }
 
-void imagem::criarPPM(string arquivo, imagem &img, int a, int l){
+void imagem::criarPPM(string arquivo){
     ofstream PPM(arquivo);
-    PPM << "P3\n" << a << " " << l << "\n255\n";
+    PPM << "P3\n" << altura << " " << largura << "\n255\n";
 
-    for (int i = 0; i < a; i++) {
-        for (int j = 0; j < l; j++) {
-            PPM << img.pixels[i][j].R << " " << img.pixels[i][j].G << " " << img.pixels[i][j].B << " ";
+    for (int i = 0; i < altura; i++) {
+        for (int j = 0; j < largura; j++) {
+            PPM << pixels[i][j].R << " " << pixels[i][j].G << " " << pixels[i][j].B << " ";
         }
         PPM << "\n";
     }
