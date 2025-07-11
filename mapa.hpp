@@ -18,6 +18,7 @@ class terreno{
         int getColunas(std::vector<vector<int>> mapaterreno);
         void saveTerreno(std::string arquivoterreno);
         void readTerreno(std::string arquivoterreno);
+        int getTamanho();
 
 };
 #endif
