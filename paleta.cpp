@@ -2,7 +2,9 @@
 #include <fstream>
 #include <iostream>
 #include <string>
+#include <vector>
 using namespace std;
+
 void Paleta::definevalues(std::string arquivo){
     ifstream text(arquivo);
     string str;
