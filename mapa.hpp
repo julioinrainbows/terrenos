@@ -7,11 +7,11 @@
 using namespace std;
 
 class terreno{
-    int altura, largura;
+    int dimensao;
     vector<vector<int>> mapa;
     
     public:
-        terreno(int a,int l);
+        terreno(int n);
         void gerarTerreno(int n,float rug); 
         int getAltitude(int x, int y);
         int getLinhas(std::vector<vector<int>> mapaterreno);
