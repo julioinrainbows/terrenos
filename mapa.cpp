@@ -8,25 +8,17 @@
 
     terreno::terreno(int n): dimensao(n) {
         srand(time(0));
-        mapa.resize(n, vector<int>(n,0));
-        for(int i = 0; i < n; i++) {
-            for(int j = 0; j < n; j++) {
-                mapa[i][j] = 0;
-            }
-        }
+        int tamanho = getTamanho();
+        mapa.resize(tamanho,vector<int>(tamanho, 0));
     }
     //s d s d
     void terreno::gerarTerreno(int n, float rug){
-        long long tamanho = static_cast<long long>(pow(2,n)+1);
-        cout << tamanho << endl;
-        srand(time(0));
-        std::vector<vector<long long>> mapaalt;
+        int tamanho = getTamanho();
 
-        mapa.resize(tamanho,vector<int>(tamanho));
         mapa[0][0] = rand() % 100;
-        mapa[0][n-1] = rand() % 100;
-        mapa[n-1][0] = rand() % 100;
-        mapa[n-1][n-1] = rand() % 100;
+        mapa[0][tamanho-1] = rand() % 100;
+        mapa[tamanho-1][0] = rand() % 100;
+        mapa[tamanho-1][tamanho-1] = rand() % 100;
 
         int step = tamanho - 1;
         while(step > 1){
@@ -59,6 +51,10 @@
         }
     }
 
+    int terreno::getTamanho() {
+        return static_cast<int>(pow(2, dimensao)+1);
+    }
+
     int terreno::getAltitude(int x, int y){
-    return mapa[x][y];
+        return mapa[x][y];
     }
