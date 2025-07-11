@@ -1,10 +1,12 @@
-#include <iostream>
-#include <fstream>
-#include <vector>
-#include "paleta.hpp"
-int main(){
-    Paleta P1;
-    P1.definevalues("paleta.txt");
-    std::cout << P1.Cores[0].R << std::endl;
-    return 0;
-}//z
+    #include <iostream>
+    #include <cstdlib>
+    #include <ctime>
+    #include <vector>
+    #include <cmath>
+    #include "mapa.hpp"
+
+    int main(){
+        terreno T1(0,0);
+        T1.gerarTerreno(9,0);
+        std::cout << T1.getAltitude(3,3);
+    }
