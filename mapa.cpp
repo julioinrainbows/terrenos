@@ -43,6 +43,10 @@
                     int media = soma / cont;
                     float random = ((float)rand() / RAND_MAX) * 2 * rug - rug;
                     mapa[x][y] = static_cast<int>(media + random);
+
+                    if (mapa[x][y] > 100) {
+                        mapa[x][y] -= mapa[x][y]%100;
+                    }
                 }
             }
 

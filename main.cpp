@@ -8,7 +8,7 @@ int main(){
     cin >> n;
 
     terreno T1(n);
-    T1.gerarTerreno(n,50);
+    T1.gerarTerreno(n, 80);
     int t = T1.getTamanho(); 
         
     Paleta paleta;
@@ -24,8 +24,13 @@ int main(){
                 break;
             }
             else {l++;}
+
+            if (img.consultar(i, j).R == 0 && img.consultar(i, j).G == 0 && img.consultar(i, j).B == 0) {
+                cout << T1.getAltitude(i, j) << endl;
+            }
         }
     }}
 
     img.criarPPM("imagem.PPM");
+    //img.~imagem();
 }

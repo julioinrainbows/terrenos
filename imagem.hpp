@@ -10,12 +10,13 @@ struct pixel{
 
 class imagem {
     int altura, largura;
-    pixel pixels[256][256];
+    pixel** pixels;
 
     public:
         imagem(int a, int l);
         pixel consultar(int x, int y);
         void colorir(int x, int y, short R, short G, short B);
         void criarPPM(string arquivo);
+        ~imagem();
 };
 #endif

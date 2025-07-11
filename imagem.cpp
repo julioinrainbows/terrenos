@@ -4,11 +4,13 @@
 using namespace std;
 
 imagem::imagem(int a, int l): altura(a), largura(l) {
+    pixels = new pixel*[altura];
+
     for (int i = 0; i < a; i++) {
+        pixels[i] = new pixel[largura];
+
         for (int j = 0; j < l; j++) {
-            pixels[i][j].R = 0;
-            pixels[i][j].G = 0;
-            pixels[i][j].B = 0;
+            pixels[i][j] = {0, 0, 0};
         }
     }
 }
@@ -33,4 +35,11 @@ void imagem::criarPPM(string arquivo){
     }
 
     PPM.close();
+}
+
+imagem::~imagem() {
+    for (int i = 0; i < altura; i++) {
+        delete pixels[i];
+    }
+    delete pixels;
 }
