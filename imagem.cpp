@@ -1,64 +1,36 @@
-    #include <iostream>
-    #include <cstdlib>
-    #include <ctime>
-    #include <vector>
-    #include <cmath>
-    #include "mapa.hpp"
-    using namespace std;
+#include <iostream>
+#include <fstream>
+#include "imagem.hpp"
+using namespace std;
 
-    terreno::terreno(int n): dimensao(n) {
-        srand(time(0));
-        mapa.resize(n, vector<int>(n,0));
-        for(int i = 0; i < n; i++) {
-            for(int j = 0; j < n; j++) {
-                mapa[i][j] = 0;
-            }
+imagem::imagem(int a, int l): altura(a), largura(l) {
+    for (int i = 0; i < a; i++) {
+        for (int j = 0; j < l; j++) {
+            pixels[i][j].R = 0;
+            pixels[i][j].G = 0;
+            pixels[i][j].B = 0;
         }
     }
-    //s d s d
-    void terreno::gerarTerreno(int n, float rug){
-        long long tamanho = static_cast<long long>(pow(2,n)+1);
-        cout << tamanho << endl;
-        srand(time(0));
-        std::vector<vector<long long>> mapaalt;
+}
 
-        mapa.resize(tamanho,vector<int>(tamanho));
-        mapa[0][0] = rand() % 100;
-        mapa[0][n-1] = rand() % 100;
-        mapa[n-1][0] = rand() % 100;
-        mapa[n-1][n-1] = rand() % 100;
+pixel imagem::consultar(int x, int y) {return pixels[x][y];}
 
-        int step = tamanho - 1;
-        while(step > 1){
-            int half = step/2;
+void imagem::colorir(int x, int y, short R, short G, short B) {
+    pixels[x][y].R = R;
+    pixels[x][y].G = G;
+    pixels[x][y].B = B;
+}
 
-            for(int x = half; x < tamanho-1; x += step){ //diamond step.
-                for(int y = half; y < tamanho-1; y+= step){
-                    int media = (mapa[x-half][y-half] + mapa[x-half][y+half] + mapa[x+half][y-half] + mapa[x+half][y+half])/4;
-                    int random = ((float)rand() / RAND_MAX) *2*rug - rug;
-                    mapa[x][y] = media + random;
-                }
-            }
+void imagem::criarPPM(string arquivo){
+    ofstream PPM(arquivo);
+    PPM << "P3\n" << altura << " " << largura << "\n255\n";
 
-            for (int x = 0; x < tamanho; x += half) { // squarestep
-                for (int y = (x + half) % step; y < tamanho; y += step) {
-                    int soma = 0;
-                    int cont = 0;
-                    if (x - half >= 0) { soma += mapa[x - half][y]; cont++; }
-                    if (x + half < tamanho) { soma += mapa[x + half][y]; cont++; }
-                    if (y - half >= 0) { soma += mapa[x][y - half]; cont++; }
-                    if (y + half < tamanho) { soma += mapa[x][y + half]; cont++; }
-                    int media = soma / cont;
-                    float random = ((float)rand() / RAND_MAX) * 2 * rug - rug;
-                    mapa[x][y] = static_cast<int>(media + random);
-                }
-            }
-
-        rug /= 2;
-        step /= 2;
+    for (int i = 0; i < altura; i++) {
+        for (int j = 0; j < largura; j++) {
+            PPM << pixels[i][j].R << " " << pixels[i][j].G << " " << pixels[i][j].B << " ";
         }
+        PPM << "\n";
     }
 
-    int terreno::getAltitude(int x, int y){
-    return mapa[x][y];
-    }
+    PPM.close();
+}
