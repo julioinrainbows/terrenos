@@ -44,7 +44,7 @@
                     if (y - half >= 0) { soma += mapa[x][y - half]; cont++; }
                     if (y + half < tamanho) { soma += mapa[x][y + half]; cont++; }
                     int media = soma / cont;
-                    float random = ((float)rand() / RAND_MAX) * 2 * escala - escala;
+                    float random = ((float)rand() / RAND_MAX) * 2 * rug - rug;
                     mapa[x][y] = static_cast<int>(media + random);
                 }
             }
