@@ -19,6 +19,6 @@ class terreno{
         void saveTerreno(std::string arquivoterreno);
         void readTerreno(std::string arquivoterreno);
         int getTamanho();
-
+        void gerarMapa(string paleta, string imagem, int dim);
 };
 #endif

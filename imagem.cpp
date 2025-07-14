@@ -37,9 +37,3 @@ void imagem::criarPPM(string arquivo){
     PPM.close();
 }
 
-imagem::~imagem() {
-    for (int i = 0; i < altura; i++) {
-        delete pixels[i];
-    }
-    delete pixels;
-}

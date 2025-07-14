@@ -17,6 +17,5 @@ class imagem {
         pixel consultar(int x, int y);
         void colorir(int x, int y, short R, short G, short B);
         void criarPPM(string arquivo);
-        ~imagem();
 };
 #endif
