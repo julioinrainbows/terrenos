@@ -8,19 +8,27 @@
 #include "imagem.cpp"
 using namespace std;
 
-terreno::terreno(int n): dimensao(n) {
+terreno::terreno(int n): tamanho(static_cast<int>(pow(2, n)+1)) {
     srand(time(0));
-    int tamanho = getTamanho();
-    mapa.resize(tamanho,vector<int>(tamanho, 0));
+    mapa = new int*[tamanho];
+
+    for (int i = 0; i < tamanho; i++) {
+        mapa[i] = new int[tamanho];
+
+        for (int j = 0; j < tamanho; j++) {
+            mapa[i][j] = 0;
+        }
+    }
 }
 //s d s d
-void terreno::gerarTerreno(int n, float rug){
-    int tamanho = getTamanho();
+void terreno::gerarTerreno(int maxalt){
+    Paleta paleta;
+    float rug = maxalt * 0.5;
 
-    mapa[0][0] = rand() % 100;
-    mapa[0][tamanho-1] = rand() % 100;
-    mapa[tamanho-1][0] = rand() % 100;
-    mapa[tamanho-1][tamanho-1] = rand() % 100;
+    mapa[0][0] = rand() % maxalt;
+    mapa[0][tamanho-1] = rand() % maxalt;
+    mapa[tamanho-1][0] = rand() % maxalt;
+    mapa[tamanho-1][tamanho-1] = rand() % maxalt;
 
     int step = tamanho - 1;
     while(step > 1){
@@ -31,6 +39,10 @@ void terreno::gerarTerreno(int n, float rug){
                 int media = (mapa[x-half][y-half] + mapa[x-half][y+half] + mapa[x+half][y-half] + mapa[x+half][y+half])/4;
                 int random = ((float)rand() / RAND_MAX) *2*rug - rug;
                 mapa[x][y] = media + random;
+
+                if (mapa[x][y] > maxalt) {
+                    mapa[x][y] -= mapa[x][y]%maxalt;
+                }
             }
         }
 
@@ -46,8 +58,8 @@ void terreno::gerarTerreno(int n, float rug){
                 float random = ((float)rand() / RAND_MAX) * 2 * rug - rug;
                 mapa[x][y] = static_cast<int>(media + random);
 
-                if (mapa[x][y] > 100) {
-                    mapa[x][y] -= mapa[x][y]%100;
+                if (mapa[x][y] > maxalt) {
+                    mapa[x][y] -= mapa[x][y]%maxalt;
                 }
             }
         }
@@ -57,25 +69,22 @@ void terreno::gerarTerreno(int n, float rug){
     }
 }
 
-int terreno::getTamanho() {
-    return static_cast<int>(pow(2, dimensao)+1);
-}
-
 int terreno::getAltitude(int x, int y){
     return mapa[x][y];
 }
 
 void terreno::gerarMapa(string arqpal, string arqimg, int dim){
     terreno T1(dim);
-    T1.gerarTerreno(dim, 80);
-    int t = T1.getTamanho(); 
-        
     Paleta paleta;
-    imagem img(t, t);
+    
 
     paleta.definevalues(arqpal + ".txt");
+    int maxalt = paleta.Valores[paleta.quantidade - 1];
+    T1.gerarTerreno(maxalt);
+    
+    imagem img(tamanho, tamanho);
 
-    for (int i = 0; i < t; i++) {for (int j = 0; j < t; j++) {
+    for (int i = 0; i < tamanho; i++) {for (int j = 0; j < tamanho; j++) {
         int l = 0;
         for (int k : paleta.Valores) { 
             if (T1.getAltitude(i, j) <= k) {

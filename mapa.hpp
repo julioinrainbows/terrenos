@@ -7,18 +7,16 @@
 using namespace std;
 
 class terreno{
-    int dimensao;
-    vector<vector<int>> mapa;
+    int tamanho;
+    int** mapa;
     
     public:
+        
         terreno(int n);
-        void gerarTerreno(int n,float rug); 
+        void gerarTerreno(int maxalt); 
         int getAltitude(int x, int y);
-        int getLinhas(std::vector<vector<int>> mapaterreno);
-        int getColunas(std::vector<vector<int>> mapaterreno);
-        void saveTerreno(std::string arquivoterreno);
-        void readTerreno(std::string arquivoterreno);
-        int getTamanho();
+        void saveTerreno(string imagem);
+        void readTerreno(string imagem);
         void gerarMapa(string paleta, string imagem, int dim);
 };
 #endif
