@@ -1,5 +1,5 @@
 #include <iostream>
-#include "mapa.hpp"
+#include "mapa.cpp"
 
 int main() {
     int n;
@@ -8,8 +8,7 @@ int main() {
     terreno T2(n);
     T2.gerarMapa(ppm,txt,n);
     T2.saveTerreno("b.txt");
-    T2.desalocarTerreno();
     T2.readTerreno("a.txt");
-    std::cout << T2.getAltitude(1,1);
+    std::cout << T2.getAltitude(1,1) << endl;
     return 0;
 }

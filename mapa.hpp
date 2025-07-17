@@ -11,14 +11,12 @@ class terreno{
     int** mapa;
     
     public:
-        
-        terreno(int n);
+        terreno(int n); //Construtor da classe terreno
         void gerarTerreno(int maxalt); 
         int getAltitude(int x, int y);
-        void desalocarTerreno();
+        ~terreno(); //Destrutor da classe terreno
         void saveTerreno(string imagem);
         void readTerreno(string imagem);
-        void gerarMapa(string paleta, string imagem, int dim);
-        void alocarTerreno();
+        void gerarMapa(string paleta, string imagem, int dim); //Cria uma imagem a partir do mapa de altitudes e dos valores definidos na paleta.
 };
 #endif

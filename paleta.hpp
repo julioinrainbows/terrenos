@@ -6,16 +6,16 @@
 #include <sstream>
 using namespace std;
 
-struct Cor{
+struct Cor{ //Contém os valores RGB de cada cor na paleta.
     int R, G, B;
 };
 
-class Paleta {
+class Paleta { 
     public:
         int quantidade;
-        std::vector<Cor> Cores;
-        std::vector<int> Valores; //100 cores com 100 valores de referencia;
+        std::vector<Cor> Cores; //Vetor que armazena os valores RGB.
+        std::vector<int> Valores; //Vetor que armazena os valores numéricos de referência.
         
-        void definevalues(std::string arquivo);
+        void definevalues(std::string arquivo); //Lê um arquivo .txt e atribui os valores e cores a seus respectivos vetores.
 }; //a
 #endif
