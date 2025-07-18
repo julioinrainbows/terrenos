@@ -3,8 +3,6 @@
 #include <ctime>
 #include <vector>
 #include <cmath>
-#include <fstream>
-#include <string>
 #include "mapa.hpp"
 #include "paleta.hpp"
 #include "imagem.hpp"
@@ -46,7 +44,6 @@ terreno::terreno(int n): tamanho(static_cast<int>(pow(2, n)+1)) {
          * Ao final do processo o valor inicializado é convertido para inteiro para evitar possiveis complicações para gerar o PPM do terreno.
          * Terminada o diamond step e o squarestep a rugosidade e step são divididos por 2 e o laço continua enquanto step>1(Até que todos os pontos do mapa de altitudes estejam inicializados.)
          * */
-
 void terreno::gerarTerreno(int maxalt){
     Paleta paleta;
     float rug = maxalt * 0.5;
@@ -71,6 +68,7 @@ void terreno::gerarTerreno(int maxalt){
                 }
             }
         }
+
         for (int x = 0; x < tamanho; x += half) { // squarestep
             for (int y = (x + half) % step; y < tamanho; y += step) {
                 int soma = 0;
@@ -98,6 +96,7 @@ void terreno::gerarTerreno(int maxalt){
  */
 int terreno::getAltitude(int x, int y){
     return mapa[x][y];
+
 }
 
 void terreno::desalocarTerreno(){
@@ -118,7 +117,6 @@ void terreno::desalocarTerreno(){
  * Apos alocados os valores no vetor passamos esses valores para o mapa de altitudes dentro de um for, definindo a cada ciclo do laço externo a quantidade de colunas a partir de um new.
  */
 void terreno::readTerreno(std::string arquivoler){
-    desalocarTerreno();
     std::ifstream arquivo(arquivoler);
     std::string str;
     std::vector<vector<int>> vetor;
@@ -134,38 +132,37 @@ void terreno::readTerreno(std::string arquivoler){
         vetor.push_back(linha);
         tamanhoarq++;
     }
-    tamanho = tamanhoarq;
+    tamanho = vetor.size(); //linhas
+    int colunas = vetor[0].size();
     mapa = new int*[tamanho];
-    for(int i =0; i < tamanho; i++){
-        mapa[i] = new int[tamanho];
-        for (int j = 0; j < tamanho;j++){
-            mapa[i][j] = vetor[i][j];
-        }
+    for (int i = 0; i < tamanho; i++) {
+    mapa[i] = new int[colunas];
+    for (int j = 0; j < colunas; j++) {
+        mapa[i][j] = vetor[i][j];
     }
 }
-
+}
 
 void terreno::gerarMapa(string arqpal, string arqimg, int dim){
-    terreno T1(dim);
     Paleta paleta;
     
 
     paleta.definevalues(arqpal + ".txt");
     int maxalt = paleta.Valores[paleta.quantidade - 1];
-    T1.gerarTerreno(maxalt);
+    gerarTerreno(maxalt);
     
     imagem img(tamanho, tamanho);
 
     for (int i = 0; i < tamanho; i++) {for (int j = 0; j < tamanho; j++) {
         int l = 0;
         for (int k : paleta.Valores) { 
-            if (T1.getAltitude(i, j) <= k) {
+            if (getAltitude(i, j) <= k) {
                 img.colorir(i, j, paleta.Cores[l].R, paleta.Cores[l].G, paleta.Cores[l].B);
                 break;
             }
             else {l++;}
         }
-        if (i > 0 && j > 0 && T1.getAltitude(i, j) < T1.getAltitude(i-1, j-1)) {
+        if (i > 0 && j > 0 && getAltitude(i, j) < getAltitude(i-1, j-1)) {
             img.colorir(i, j, floor(img.consultar(i, j).R * 0.5), floor(img.consultar(i, j).G * 0.7), floor(img.consultar(i, j).B * 0.8));
         }
     }}
