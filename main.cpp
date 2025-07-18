@@ -1,13 +1,15 @@
 #include <iostream>
 #include "mapa.hpp"
 
-int main(){
+int main() {
     int n;
-    string txt, ppm;
-    cin >> n;
-
-    terreno T1(n);
-    T1.readTerreno("a.txt");
-    std::cout << T1.getAltitude(2,2);
+    std::string txt, ppm;
+    std::cin >> n >> ppm >> txt;
+    terreno T2(n);
+    T2.gerarMapa(ppm,txt,n);
+    T2.saveTerreno("b.txt");
+    T2.desalocarTerreno();
+    T2.readTerreno("a.txt");
+    std::cout << T2.getAltitude(1,1);
     return 0;
 }
