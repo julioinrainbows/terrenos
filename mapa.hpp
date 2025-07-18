@@ -19,5 +19,6 @@ class terreno{
         void saveTerreno(string imagem);
         void readTerreno(string imagem);
         void gerarMapa(string paleta, string imagem, int dim);
+        void alocarTerreno();
 };
 #endif
